@@ -17,26 +17,12 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Build Project
-      run: |
-        dotnet new classlib -n Plugin -f net6.0
-        rm -f Plugin/Class1.cs
-        cp Plugin.cs Plugin/
-        
-        cd Plugin
-        # Tải bộ TShock Server từ GitHub Release
-        wget https://github.com/Pryaxis/TShock/releases/download/v5.2.0/TShock-5.2.0-Terraria-1.4.4.9.zip
-        unzip -q TShock-5.2.0-Terraria-1.4.4.9.zip -d TShockServer
-        
-        # Liên kết trực tiếp các file DLL cần thiết
-        dotnet add reference TShockServer/TShockAPI.dll
-        dotnet add reference TShockServer/Terraria.dll
-        dotnet add reference TShockServer/OTAPI.dll
-        
-        dotnet build -c Release
+    - name: Build Plugin
+      run: dotnet build Plugin.csproj -c Release
 
     - name: Upload DLL
       uses: actions/upload-artifact@v4
       with:
         name: SkeletronPhase2Plugin
-        path: Plugin/bin/Release/net6.0/*.dll
+        path: bin/Release/net6.0/*.dll
+
