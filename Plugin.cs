@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaID;
+using Terraria.ID;
 using TerrariaApi.Server;
 using TShockAPI;
 
@@ -11,9 +10,9 @@ namespace SkeletronPhase2Plugin
     [ApiVersion(2, 1)]
     public class SkeletronPhase2Plugin : TerrariaPlugin
     {
-        public override string Name => "Skeletron Phase 2 Extra Arm & Skulls";
+        public override string Name => "Skeletron Phase 2 Extra Arm";
         public override string Author => "Nhan Ly";
-        public override string Description => "Skeletron Phase 2 mọc thêm tay và bắn đầu lâu đuổi";
+        public override string Description => "Skeletron Phase 2 mọc thêm tay";
         public override Version Version => new Version(1, 0, 0);
 
         private bool isSkeletronPhase2Active = false;
@@ -64,8 +63,7 @@ namespace SkeletronPhase2Plugin
 
             if (armIndex < Main.maxNPCs)
             {
-                NPC arm = Main.npc[armIndex];
-                arm.ai[1] = headNpc.whoAmI;
+                Main.npc[armIndex].ai[1] = headNpc.whoAmI;
                 TSPlayer.All.SendData(PacketTypes.NpcUpdate, "", armIndex);
             }
         }
