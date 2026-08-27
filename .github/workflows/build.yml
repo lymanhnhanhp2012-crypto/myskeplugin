@@ -1,14 +1,10 @@
 name: Build TShock Plugin
 
-on:
-  push:
-    branches: [ "main", "master" ]
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
 
@@ -17,11 +13,18 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Build Plugin
-      run: dotnet build Plugin.csproj -c Release
+    - name: Auto Build
+      run: |
+        dotnet new classlib -n Plugin -f net6.0
+        rm Plugin/Class1.cs
+        cp Plugin.cs Plugin/
+        cd Plugin
+        dotnet add package TShock --version 5.2.0
+        dotnet build -c Release
 
     - name: Upload DLL
       uses: actions/upload-artifact@v4
       with:
         name: SkeletronPhase2Plugin
-        path: bin/Release/net6.0/*.dll
+        path: Plugin/bin/Release/net6.0/*.dll
+
