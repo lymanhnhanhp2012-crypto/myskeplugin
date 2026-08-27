@@ -17,22 +17,17 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Download TShock & Build
+    - name: Build Project
       run: |
         dotnet new classlib -n Plugin -f net6.0
         rm -f Plugin/Class1.cs
         cp Plugin.cs Plugin/
         
-        # Tải gói TShock Release chứa đủ Terraria.dll & OTAPI.dll
-        curl -L -o TShock.zip https://github.com/Pryaxis/TShock/releases/download/v5.2.0/TShock-5.2.0-Terraria-1.4.4.9.zip
-        pwsh -Command "Expand-Archive -Path TShock.zip -DestinationPath TShockServer"
+        cd Plugin
+        dotnet add package TShock --version 5.2.0
+        dotnet add package TShock.Server --version 5.2.0 || true
         
-        # Liên kết trực tiếp file .dll
-        dotnet add Plugin/Plugin.csproj reference TShockServer/TShockAPI.dll
-        dotnet add Plugin/Plugin.csproj reference TShockServer/Terraria.dll
-        dotnet add Plugin/Plugin.csproj reference TShockServer/OTAPI.dll
-        
-        dotnet build Plugin/Plugin.csproj -c Release
+        dotnet build -c Release
 
     - name: Upload DLL
       uses: actions/upload-artifact@v4
