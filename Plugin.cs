@@ -41,7 +41,7 @@ namespace SkeletronPhase2Plugin
                     {
                         isSkeletronPhase2Active = true;
                         SpawnExtraHand(npc);
-                        TSPlayer.All.SendTextMessage("Skeletron đã mọc thêm tay và tiến vào Phase 2!", Color.Red);
+                        TSPlayer.All.SendMessage("Skeletron đã mọc thêm tay và tiến vào Phase 2!", Color.Red);
                     }
                 }
             }
@@ -55,7 +55,7 @@ namespace SkeletronPhase2Plugin
         private void SpawnExtraHand(NPC headNpc)
         {
             int armIndex = NPC.NewNPC(
-                headNpc.GetSource_FromAI(),
+                null,
                 (int)headNpc.Center.X,
                 (int)headNpc.Center.Y,
                 NPCID.SkeletronHand
