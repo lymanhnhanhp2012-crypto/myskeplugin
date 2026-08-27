@@ -3,9 +3,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TShock" Version="5.2.0" />
+    <Reference Include="Terraria">
+      <HintPath>libs/Terraria.dll</HintPath>
+    </Reference>
+    <Reference Include="OTAPI">
+      <HintPath>libs/OTAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="TShockAPI">
+      <HintPath>libs/TShockAPI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
+
