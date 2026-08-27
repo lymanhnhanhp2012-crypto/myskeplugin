@@ -3,6 +3,7 @@ name: Build TShock Plugin
 on:
   push:
     branches: [ "main", "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,24 +13,17 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
 
-    - name: Create Csproj
+    - name: Build Project
       run: |
-        dotnet new classlib -n Plugin
-        rm Plugin/Class1.cs
+        dotnet new classlib -n Plugin -f net6.0
+        rm -f Plugin/Class1.cs
         cp Plugin.cs Plugin/
-
-    - name: Add TShock Package
-      run: |
         cd Plugin
         dotnet add package TShock --version 5.2.0
-
-    - name: Build
-      run: |
-        cd Plugin
         dotnet build -c Release
 
     - name: Upload DLL
@@ -37,4 +31,3 @@ jobs:
       with:
         name: SkeletronPhase2Plugin
         path: Plugin/bin/Release/net6.0/*.dll
-
