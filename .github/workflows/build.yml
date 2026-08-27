@@ -23,7 +23,15 @@ jobs:
         rm -f Plugin/Class1.cs
         cp Plugin.cs Plugin/
         cd Plugin
+        
+        # Tải file TerrariaServer.zip chính thức từ TShock để lấy Terraria.dll
+        curl -L -o TShock.zip https://github.com/Pryaxis/TShock/releases/download/v5.2.0/TShock-5.2.0-Terraria-1.4.4.9.zip
+        unzip -q TShock.zip -d TShockServer
+        
+        # Thêm reference TShock & Terraria trực tiếp
         dotnet add package TShock --version 5.2.0
+        dotnet add reference TShockServer/Terraria.dll || true
+        
         dotnet build -c Release
 
     - name: Upload DLL
