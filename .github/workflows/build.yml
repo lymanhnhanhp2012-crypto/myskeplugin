@@ -17,26 +17,11 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Download TShock DLLs & Build
-      run: |
-        # Tạo thư mục chứa thư viện gốc
-        mkdir -p libs
-        
-        # Tải bộ TShock 5.2.0 chính thức từ GitHub Release
-        curl -L -o tshock.zip https://github.com/Pryaxis/TShock/releases/download/v5.2.0/TShock-5.2.0-Terraria-1.4.4.9.zip
-        unzip -q tshock.zip -d tshock_extracted
-        
-        # Copy các file DLL cần thiết vào thư mục libs của project
-        cp tshock_extracted/Terraria.dll libs/
-        cp tshock_extracted/OTAPI.dll libs/
-        cp tshock_extracted/TShockAPI.dll libs/
-        
-        # Tiến hành build project
-        dotnet build Plugin.csproj -c Release
+    - name: Build Plugin
+      run: dotnet build Plugin.csproj -c Release
 
     - name: Upload DLL
       uses: actions/upload-artifact@v4
       with:
         name: SkeletronPhase2Plugin
         path: bin/Release/net6.0/*.dll
-
