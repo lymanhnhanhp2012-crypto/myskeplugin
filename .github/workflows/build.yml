@@ -24,8 +24,14 @@ jobs:
         cp Plugin.cs Plugin/
         
         cd Plugin
-        dotnet add package TShock --version 5.2.0
-        dotnet add package TShock.Server --version 5.2.0 || true
+        # Tải bộ TShock Server từ GitHub Release
+        wget https://github.com/Pryaxis/TShock/releases/download/v5.2.0/TShock-5.2.0-Terraria-1.4.4.9.zip
+        unzip -q TShock-5.2.0-Terraria-1.4.4.9.zip -d TShockServer
+        
+        # Liên kết trực tiếp các file DLL cần thiết
+        dotnet add reference TShockServer/TShockAPI.dll
+        dotnet add reference TShockServer/Terraria.dll
+        dotnet add reference TShockServer/OTAPI.dll
         
         dotnet build -c Release
 
@@ -34,4 +40,3 @@ jobs:
       with:
         name: SkeletronPhase2Plugin
         path: Plugin/bin/Release/net6.0/*.dll
-
